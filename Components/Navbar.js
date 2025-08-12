@@ -10,6 +10,7 @@ import {
   BellIcon,
   FunnelIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const Navbar = ({ user, onLogout, onFilterChange }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,33 +18,34 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
   const pathname = usePathname();
 
   const navLinks = [
-    { name: "Home", href: "/home", icon: HomeIcon },
+    { name: "Home", href: "/", icon: HomeIcon },
     { name: "Chat", href: "/chat", icon: ChatBubbleBottomCenterTextIcon },
     { name: "Notifications", href: "/notifications", icon: BellIcon },
   ];
 
   const isHome = pathname === "/home";
 
-  const isActive = (href) => pathname === href || pathname.startsWith(href + "/");
+  const isActive = (href) =>
+    pathname === href || pathname.startsWith(href + "/");
 
   return (
     <nav className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <a
+          <Link
             href="/"
             className="text-indigo-600 font-semibold text-2xl font-sans select-none"
           >
             IshqLine
-          </a>
+          </Link>
 
           {/* Desktop and medium nav and search/filter */}
           <div className="hidden md:flex items-center space-x-6 flex-1 ml-6">
             {/* Navigation links with icon + text */}
             <div className="flex space-x-6 flex-shrink-0">
               {navLinks.map(({ name, href, icon: Icon }) => (
-                <a
+                <Link
                   key={name}
                   href={href}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 transition ${
@@ -53,8 +55,8 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
                   }`}
                 >
                   <Icon className="h-5 w-5" />
-                  <span>{name}</span>
-                </a>
+                  <span className="hidden xl:block">{name}</span>
+                </Link>
               ))}
             </div>
 
@@ -79,7 +81,7 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
                     aria-controls="filter-menu"
                   >
                     <FunnelIcon className="h-5 w-5" />
-                    <span>Filter</span>
+                    <span className="hidden xl:block">Filter</span>
                   </button>
 
                   {filterOpen && (
@@ -92,7 +94,8 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
                           key={filter}
                           className="block w-full text-left px-4 py-2 hover:bg-indigo-100 transition"
                           onClick={() => {
-                            onFilterChange && onFilterChange(filter.toLowerCase());
+                            onFilterChange &&
+                              onFilterChange(filter.toLowerCase());
                             setFilterOpen(false);
                           }}
                         >
@@ -110,28 +113,28 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
           <div className="hidden md:flex items-center space-x-4 ml-6 flex-shrink-0">
             {!user ? (
               <>
-                <a
+                <Link
                   href="/signup"
                   className="px-4 py-2 rounded-2xl border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                   Sign Up
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/login"
                   className="px-4 py-2 rounded-2xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                   Login
-                </a>
+                </Link>
               </>
             ) : (
               <>
-                <a
+                <Link
                   href="/profile"
                   className="flex items-center space-x-1 px-3 py-2 rounded-md text-indigo-700 font-semibold hover:bg-indigo-100 transition"
                 >
                   <UserCircleIcon className="h-5 w-5" />
                   <span>My Profile</span>
-                </a>
+                </Link>
                 <button
                   onClick={onLogout}
                   className="px-4 py-2 rounded-2xl border border-rose-500 text-rose-500 font-semibold hover:bg-rose-500 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-rose-500"
@@ -170,17 +173,19 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
       >
         <nav className="px-4 pt-2 pb-4 space-y-2 text-gray-700">
           {navLinks.map(({ name, href, icon: Icon }) => (
-            <a
+            <Link
               key={name}
               href={href}
               className={`flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 hover:bg-indigo-100 transition ${
-                isActive(href) ? "bg-indigo-100 font-semibold text-indigo-700" : ""
+                isActive(href)
+                  ? "bg-indigo-100 font-semibold text-indigo-700"
+                  : ""
               }`}
               onClick={() => setMenuOpen(false)}
             >
               <Icon className="h-5 w-5" />
               <span>{name}</span>
-            </a>
+            </Link>
           ))}
 
           {/* Search input on Home */}
@@ -229,31 +234,31 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
           {/* Auth buttons */}
           {!user ? (
             <>
-              <a
+              <Link
                 href="/signup"
                 className="block px-3 py-2 rounded-md border border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-600 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 onClick={() => setMenuOpen(false)}
               >
                 Sign Up
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/login"
                 className="block px-3 py-2 rounded-md bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 onClick={() => setMenuOpen(false)}
               >
                 Login
-              </a>
+              </Link>
             </>
           ) : (
             <>
-              <a
+              <Link
                 href="/profile"
                 className="flex items-center space-x-1 px-3 py-2 rounded-md text-indigo-700 font-semibold hover:bg-indigo-100 transition"
                 onClick={() => setMenuOpen(false)}
               >
                 <UserCircleIcon className="h-5 w-5" />
                 <span>My Profile</span>
-              </a>
+              </Link>
               <button
                 onClick={() => {
                   onLogout();
@@ -288,7 +293,7 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
       <div className="icons-only-nav fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md md:hidden z-50 px-4">
         <div className="flex justify-around py-2">
           {navLinks.map(({ name, href, icon: Icon }) => (
-            <a
+            <Link
               key={name}
               href={href}
               className={`flex flex-col items-center justify-center text-gray-700 hover:text-indigo-600 ${
@@ -298,7 +303,7 @@ const Navbar = ({ user, onLogout, onFilterChange }) => {
               aria-label={name}
             >
               <Icon className="h-6 w-6" />
-            </a>
+            </Link>
           ))}
         </div>
       </div>
