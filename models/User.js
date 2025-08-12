@@ -1,21 +1,35 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  otp: { type: String },
-  otpExpires: { type: Date },
-  isVerified: { type: Boolean, default: false },
+const UserSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    otp: { type: String },
+    otpExpires: { type: Date },
+    isVerified: { type: Boolean, default: false },
 
-  // Profile fields
-  bio: { type: String },
-  age: { type: Number },
-  city: { type: String },
-  occupation: { type: String },
-  prompts: { type: [String], default: [] },
-  interests: { type: [String], default: [] },
-  photos: { type: [String], default: [] }, // S3 URLs
-}, { timestamps: true });
+    // Profile fields
+    bio: { type: String },
+    age: { type: Number },
+    city: { type: String },
+    occupation: { type: String },
+    prompts: { type: [String], default: [] },
+    interests: { type: [String], default: [] },
+    photos: { type: [String], default: [] }, // S3 URLs
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], 
+        default: [0, 0],
+      },
+    },
+  },
+  { timestamps: true }
+);
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);
