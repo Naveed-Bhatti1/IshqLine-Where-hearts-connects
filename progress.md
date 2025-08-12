@@ -34,6 +34,7 @@ api/v1/profile/me/photos
 
 ```
 api/v1/profile/me/photos
+api/v1/profile/me/update-location
 ```
 
 ### PUT:
@@ -46,4 +47,12 @@ api/v1/profile/me
 
 ```
 api/v1/profile/delete
+```
+
+## DISCOVER:
+
+### GET:
+
+```
+api/v1/discover
 ```
